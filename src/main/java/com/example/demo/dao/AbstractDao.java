@@ -9,7 +9,7 @@ import java.util.*;
  * User: Alexey<br>
  * Date: 02.07.2017<br>
  * Time: 15:12<br>
- * todo javadoc
+ * Абстрактный класс для реализации Dao
  */
 public abstract class AbstractDao<Entity> {
     private final Class entryClass;

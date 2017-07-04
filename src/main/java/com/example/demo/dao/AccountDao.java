@@ -13,7 +13,7 @@ import static com.example.demo.Constants.ACCOUNT_ID;
  * User: Alexey<br>
  * Date: 02.07.2017<br>
  * Time: 15:45<br>
- * todo javadoc
+ * Dao для банковского счета
  */
 @Repository("accountDao")
 @Transactional(propagation = Propagation.MANDATORY)
@@ -41,10 +41,9 @@ public class AccountDao extends AbstractDao<Account> {
 
     private Account getAccount() {
         Account acc = find(ACCOUNT_ID);
-        if (acc != null) {
-            return acc;
-        } else {
+        if (acc == null) {
             throw new EntityNotFoundException("Счет не доступен");
         }
+        return acc;
     }
 }

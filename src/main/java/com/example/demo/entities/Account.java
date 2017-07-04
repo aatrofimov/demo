@@ -7,12 +7,18 @@ import javax.persistence.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 22:57<br>
- * todo javadoc
+ * Банковский счет
  */
 @Entity
 @Table(name = "ACCOUNT", schema = "TESTWORK", catalog = "PUBLIC")
 public class Account {
+    /**
+     * pk
+     */
     private int accountId;
+    /**
+     * Сумма на счете
+     */
     private int amount;
 
     @Id

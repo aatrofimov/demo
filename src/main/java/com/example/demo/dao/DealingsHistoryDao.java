@@ -11,7 +11,7 @@ import java.sql.*;
  * User: Alexey<br>
  * Date: 02.07.2017<br>
  * Time: 15:46<br>
- * todo javadoc
+ * Dao для истории сделок
  */
 @Repository("dealingsHistoryDao")
 @Transactional(propagation = Propagation.MANDATORY)
@@ -20,12 +20,23 @@ public class DealingsHistoryDao extends AbstractDao<DealingsHistory> {
         super(DealingsHistory.class);
     }
 
-    public int createHistory(
+    /**
+     * Создание записи о сделке
+     * @param typeId тип договора
+     * @param materialId id материала
+     * @param productId id продукции
+     * @param value количество
+     * @param price стоимость
+     * @param description комментарий
+     * @param isSuccessfully завершилась ли успешно
+     * @return DealingsHistory
+     */
+    public DealingsHistory createHistory(
             int typeId,
             Integer materialId,
             Integer productId,
             double value,
-            int unitPrice,
+            int price,
             String description,
             boolean isSuccessfully
     ) {
@@ -35,10 +46,10 @@ public class DealingsHistoryDao extends AbstractDao<DealingsHistory> {
         dealingsHistory.setMaterialId(materialId);
         dealingsHistory.setProductId(productId);
         dealingsHistory.setValue(value);
-        dealingsHistory.setUnitPrice(unitPrice);
+        dealingsHistory.setPrice(price);
         dealingsHistory.setSuccessfully(isSuccessfully);
         dealingsHistory.setDescription(description);
         persist(dealingsHistory);
-        return dealingsHistory.getDealHistoryId();
+        return dealingsHistory;
     }
 }

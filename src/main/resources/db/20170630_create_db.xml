@@ -31,6 +31,9 @@
             <column name="unit_id" type="int" remarks="Единица измерения">
                 <constraints nullable="false"/>
             </column>
+            <column name="price" type="int" remarks="Стоимость единицы">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -62,9 +65,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="unit_id" type="int" remarks="Единица измерения">
-                <constraints nullable="false"/>
-            </column>
-            <column name="price" type="int" remarks="Цена">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -118,10 +118,10 @@
             <column name="product_id" type="int" remarks="Изделие">
                 <constraints nullable="true"/>
             </column>
-            <column name="value" type="DOUBLE" remarks="Величина">
+            <column name="value" type="DOUBLE" remarks="Величина (количество товара)">
                 <constraints nullable="false"/>
             </column>
-            <column name="unit_price" type="int" remarks="Цена за единицу">
+            <column name="price" type="int" remarks="Стоимость">
                 <constraints nullable="false"/>
             </column>
             <column name="is_successfully" type="boolean" defaultValueBoolean="false" remarks="Состоялась ли сделка">

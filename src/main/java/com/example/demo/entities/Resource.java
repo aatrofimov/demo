@@ -7,13 +7,22 @@ import javax.persistence.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 22:57<br>
- * todo javadoc
+ * Информация о ресурсах на складе
  */
 @Entity
 @Table(name = "RESOURCE", schema = "TESTWORK", catalog = "PUBLIC")
 public class Resource {
+    /**
+     * pk
+     */
     private int resourceId;
+    /**
+     * id материала
+     */
     private int materialId;
+    /**
+     * количество
+     */
     private double value;
     private Material materialByMaterialId;
 

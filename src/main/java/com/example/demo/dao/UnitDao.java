@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.*;
  * User: Alexey<br>
  * Date: 02.07.2017<br>
  * Time: 15:51<br>
- * todo javadoc
+ * Dao для Единиц измерения
  */
 @Repository("unitDao")
 @Transactional(propagation = Propagation.MANDATORY)

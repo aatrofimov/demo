@@ -8,15 +8,23 @@ import java.util.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 22:57<br>
- * todo javadoc
+ * Продукция
  */
 @Entity
 @Table(name = "PRODUCT", schema = "TESTWORK", catalog = "PUBLIC")
 public class Product {
+    /**
+     * pk
+     */
     private int productId;
+    /**
+     * Наименование продукции
+     */
     private String name;
+    /**
+     * единица измерения
+     */
     private int unitId;
-    private int price;
     private Collection<DealingsHistory> dealingsHistoriesByProductId;
     private Collection<MatProd> matProdsByProductId;
     private Unit unitByUnitId;
@@ -53,16 +61,6 @@ public class Product {
         this.unitId = unitId;
     }
 
-    @Basic
-    @Column(name = "PRICE", nullable = false)
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,7 +70,6 @@ public class Product {
 
         if (productId != product.productId) return false;
         if (unitId != product.unitId) return false;
-        if (price != product.price) return false;
         if (name != null ? !name.equals(product.name) : product.name != null) return false;
 
         return true;
@@ -83,7 +80,6 @@ public class Product {
         int result = productId;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + unitId;
-        result = 31 * result + price;
         return result;
     }
 

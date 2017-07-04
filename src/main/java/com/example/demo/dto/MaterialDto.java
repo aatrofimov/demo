@@ -5,15 +5,24 @@ package com.example.demo.dto;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 6:20<br>
- * todo javadoc
+ * Dto для покупки материалов
  */
 public class MaterialDto {
 
+    /**
+     * id материала
+     */
     private int materialId;
 
+    /**
+     * Количество
+     */
     private double value;
 
-    private int price;
+    public MaterialDto(int materialId, double value) {
+        this.materialId = materialId;
+        this.value = value;
+    }
 
     public int getMaterialId() {
         return materialId;
@@ -29,13 +38,5 @@ public class MaterialDto {
 
     public void setValue(double value) {
         this.value = value;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }

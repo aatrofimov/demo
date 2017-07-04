@@ -8,15 +8,30 @@ import java.sql.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 22:57<br>
- * todo javadoc
+ * История транзакций
  */
 @Entity
 @Table(name = "TRANSACTION", schema = "TESTWORK", catalog = "PUBLIC")
 public class Transaction {
+    /**
+     * pk
+     */
     private int transactionId;
+    /**
+     * Сумма в транзакции
+     */
     private int amount;
+    /**
+     * id сделки
+     */
     private Integer dealId;
+    /**
+     * Дата совершения транзакции
+     */
     private Timestamp date;
+    /**
+     * Комментарий
+     */
     private String description;
     private DealingsHistory dealingsHistoryByDealId;
 

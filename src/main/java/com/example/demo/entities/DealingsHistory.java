@@ -9,19 +9,46 @@ import java.util.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 22:57<br>
- * todo javadoc
+ * История сделок
  */
 @Entity
 @Table(name = "DEALINGS_HISTORY", schema = "TESTWORK", catalog = "PUBLIC")
 public class DealingsHistory {
+    /**
+     * pk
+     */
     private int dealHistoryId;
+    /**
+     * Тип догвоора
+     */
     private int typeId;
+    /**
+     * id материала
+     */
     private Integer materialId;
+    /**
+     * id продукции
+     */
     private Integer productId;
+    /**
+     * количество материала (продукции)
+     */
     private double value;
-    private int unitPrice;
+    /**
+     * Стоимость
+     */
+    private int price;
+    /**
+     * Состоялась ли сделка
+     */
     private boolean isSuccessfully;
+    /**
+     * Дата сделки
+     */
     private Timestamp date;
+    /**
+     * Комментарий
+     */
     private String description;
     private DealType dealTypeByTypeId;
     private Material materialByMaterialId;
@@ -81,13 +108,13 @@ public class DealingsHistory {
     }
 
     @Basic
-    @Column(name = "UNIT_PRICE", nullable = false)
-    public int getUnitPrice() {
-        return unitPrice;
+    @Column(name = "PRICE", nullable = false)
+    public int getPrice() {
+        return price;
     }
 
-    public void setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setPrice(int unitPrice) {
+        this.price = unitPrice;
     }
 
     @Basic
@@ -130,7 +157,7 @@ public class DealingsHistory {
         if (dealHistoryId != that.dealHistoryId) return false;
         if (typeId != that.typeId) return false;
         if (Double.compare(that.value, value) != 0) return false;
-        if (unitPrice != that.unitPrice) return false;
+        if (price != that.price) return false;
         if (isSuccessfully != that.isSuccessfully) return false;
         if (materialId != null ? !materialId.equals(that.materialId) : that.materialId != null) return false;
         if (productId != null ? !productId.equals(that.productId) : that.productId != null) return false;
@@ -150,7 +177,7 @@ public class DealingsHistory {
         result = 31 * result + (productId != null ? productId.hashCode() : 0);
         temp = Double.doubleToLongBits(value);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + unitPrice;
+        result = 31 * result + price;
         result = 31 * result + (isSuccessfully ? 1 : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);

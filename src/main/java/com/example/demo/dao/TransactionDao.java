@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
-import javax.persistence.*;
 import java.sql.*;
 
 /**
@@ -13,7 +12,7 @@ import java.sql.*;
  * User: Alexey<br>
  * Date: 02.07.2017<br>
  * Time: 15:50<br>
- * todo javadoc
+ * Dao для транзакций
  */
 @Repository("transactionDao")
 @Transactional(propagation = Propagation.MANDATORY)
@@ -30,14 +29,18 @@ public class TransactionDao extends AbstractDao<Transaction> {
         this.dealTypeDao = dealTypeDao;
     }
 
+    /**
+     * Создание новой транзакции
+     * @param money сумма
+     * @param dealTypeId тип договора
+     * @param dealId id записи в истории сделок
+     * @param description комментарий
+     * @throws Exception
+     */
     public void createTransaction(int money, Integer dealTypeId, Integer dealId, String description) throws Exception {
-        boolean haveDealId = dealId != null && dealId > 0;
         boolean haveDealTypeId = dealTypeId != null && dealTypeId > 0;
         if (haveDealTypeId) {
-            DealType dealType = dealTypeDao.find(dealTypeId);
-            if (dealType == null) {
-                throw new EntityNotFoundException("Вид договора с id " + dealTypeId + " не найден");
-            }
+            DealType dealType = dealTypeDao.getDealType(dealTypeId);
             if (dealType.isProfitable() && money < 0 && !dealType.isProfitable() && money > 0) {
                 throw new Exception("Тип договора не соответствует сумме транзакции");
             }

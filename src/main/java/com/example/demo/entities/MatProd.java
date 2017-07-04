@@ -7,14 +7,26 @@ import javax.persistence.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 22:57<br>
- * todo javadoc
+ * Таблица с описанием количества необходимых материалов для единицы продукции
  */
 @Entity
 @Table(name = "MAT_PROD", schema = "TESTWORK", catalog = "PUBLIC")
 public class MatProd {
+    /**
+     * pk
+     */
     private int matProdId;
+    /**
+     * id материала
+     */
     private int materialId;
+    /**
+     * id продукта
+     */
     private int productId;
+    /**
+     * количество материала для получения единицы продукции
+     */
     private double value;
     private Material materialByMaterialId;
     private Product productByProductId;

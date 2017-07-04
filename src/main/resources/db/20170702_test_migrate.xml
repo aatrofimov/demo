@@ -66,16 +66,19 @@
             <column name="MATERIAL_ID" value="10"/>
             <column name="NAME" value="Брус 15см"/>
             <column name="UNIT_ID" value="5"/>
+            <column name="PRICE" value="5000"/>
         </insert>
         <insert schemaName="testwork" tableName="MATERIAL">
             <column name="MATERIAL_ID" value="11"/>
             <column name="NAME" value="ABS пластик"/>
             <column name="UNIT_ID" value="2"/>
+            <column name="PRICE" value="3000"/>
         </insert>
         <insert schemaName="testwork" tableName="MATERIAL">
             <column name="MATERIAL_ID" value="12"/>
             <column name="NAME" value="Краска акриловая белая"/>
             <column name="UNIT_ID" value="6"/>
+            <column name="PRICE" value="2000"/>
         </insert>
     </changeSet>
 
@@ -109,6 +112,63 @@
             <column name="NAME" value="Реализация продукции"/>
             <column name="profitable" value="true"/>
             <column name="DESCRIPTION" value=""/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="20170702-5_add_sample_products" author="TrofimovAA">
+        <insert schemaName="testwork" tableName="PRODUCT">
+            <column name="PRODUCT_ID" value="30"/>
+            <column name="NAME" value="Изделие 1"/>
+            <column name="UNIT_ID" value="4"/>
+        </insert>
+        <insert schemaName="testwork" tableName="PRODUCT">
+            <column name="PRODUCT_ID" value="31"/>
+            <column name="NAME" value="Изделие 2"/>
+            <column name="UNIT_ID" value="4"/>
+        </insert>
+        <insert schemaName="testwork" tableName="PRODUCT">
+            <column name="PRODUCT_ID" value="32"/>
+            <column name="NAME" value="Изделие 3"/>
+            <column name="UNIT_ID" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="20170702-6_add_mat_prod" author="TrofimovAA">
+        <insert schemaName="testwork" tableName="MAT_PROD">
+            <column name="MAT_PROD_ID" value="40"/>
+            <column name="MATERIAL_ID" value="10"/>
+            <column name="PRODUCT_ID" value="30"/>
+            <column name="VALUE" value="4"/>
+        </insert>
+        <insert schemaName="testwork" tableName="MAT_PROD">
+            <column name="MAT_PROD_ID" value="41"/>
+            <column name="MATERIAL_ID" value="11"/>
+            <column name="PRODUCT_ID" value="30"/>
+            <column name="VALUE" value="10"/>
+        </insert>
+        <insert schemaName="testwork" tableName="MAT_PROD">
+            <column name="MAT_PROD_ID" value="42"/>
+            <column name="MATERIAL_ID" value="12"/>
+            <column name="PRODUCT_ID" value="30"/>
+            <column name="VALUE" value="10"/>
+        </insert>
+        <insert schemaName="testwork" tableName="MAT_PROD">
+            <column name="MAT_PROD_ID" value="43"/>
+            <column name="MATERIAL_ID" value="10"/>
+            <column name="PRODUCT_ID" value="31"/>
+            <column name="VALUE" value="10"/>
+        </insert>
+        <insert schemaName="testwork" tableName="MAT_PROD">
+            <column name="MAT_PROD_ID" value="44"/>
+            <column name="MATERIAL_ID" value="12"/>
+            <column name="PRODUCT_ID" value="31"/>
+            <column name="VALUE" value="2"/>
+        </insert>
+        <insert schemaName="testwork" tableName="MAT_PROD">
+            <column name="MAT_PROD_ID" value="45"/>
+            <column name="MATERIAL_ID" value="11"/>
+            <column name="PRODUCT_ID" value="32"/>
+            <column name="VALUE" value="10"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

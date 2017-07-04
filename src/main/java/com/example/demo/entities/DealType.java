@@ -8,14 +8,26 @@ import java.util.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 22:57<br>
- * todo javadoc
+ * Типы договоров
  */
 @Entity
 @Table(name = "DEAL_TYPE", schema = "TESTWORK", catalog = "PUBLIC")
 public class DealType {
+    /**
+     * pk
+     */
     private int dealTypeId;
+    /**
+     * Название
+     */
     private String name;
+    /**
+     * Описание
+     */
     private String description;
+    /**
+     * Доходный/Расходный
+     */
     private boolean profitable;
     private Collection<DealingsHistory> dealingsHistoriesByDealTypeId;
 

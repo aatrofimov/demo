@@ -18,7 +18,7 @@ import java.util.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 2:02<br>
- * todo javadoc
+ * Конфигурация БД
  */
 @Configuration
 @EnableTransactionManagement

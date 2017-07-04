@@ -8,14 +8,26 @@ import java.util.*;
  * User: Alexey<br>
  * Date: 03.07.2017<br>
  * Time: 22:57<br>
- * todo javadoc
+ * Единицы измерения
  */
 @Entity
 @Table(name = "UNIT", schema = "TESTWORK", catalog = "PUBLIC")
 public class Unit {
+    /**
+     * pk
+     */
     private int unitId;
+    /**
+     * Название
+     */
     private String name;
+    /**
+     * Сокращенное название
+     */
     private String shortName;
+    /**
+     * Делимость
+     */
     private boolean divisibility;
     private Collection<Material> materialsByUnitId;
     private Collection<Product> productsByUnitId;

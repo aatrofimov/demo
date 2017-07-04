@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.*;
  * User: Alexey<br>
  * Date: 02.07.2017<br>
  * Time: 15:47<br>
- * todo javadoc
+ * Dao для материалов
  */
 @Repository("materialDao")
 @Transactional(propagation = Propagation.MANDATORY)

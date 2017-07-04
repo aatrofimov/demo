@@ -10,40 +10,39 @@ import org.springframework.validation.*;
 /**
  * Created by IntelliJ IDEA.<br>
  * User: Alexey<br>
- * Date: 03.07.2017<br>
- * Time: 6:32<br>
- * Валидатор для MaterialDto
+ * Date: 04.07.2017<br>
+ * Time: 19:04<br>
+ * Валидатор для SaleDto
  */
 @Component
-public class MaterialDtoValidator implements Validator {
+public class SaleDtoValidator implements Validator {
 
-    private MaterialDao dao;
+    private ProductDao productDao;
 
     @Autowired
-    public MaterialDtoValidator(MaterialDao dao) {
-        this.dao = dao;
+    public SaleDtoValidator(ProductDao productDao) {
+        this.productDao = productDao;
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return MaterialDto.class.isAssignableFrom(aClass);
+        return SaleDto.class.isAssignableFrom(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        MaterialDto dto = (MaterialDto)o;
+        SaleDto dto = (SaleDto)o;
         double value = dto.getValue();
         if (value <= 0) {
             errors.reject("Количество материала должно быть больше нуля");
         }
-
-        Material material = dao.find(dto.getMaterialId());
-        if (material == null) {
-            errors.reject("Материал с таким id не существует");
+        Product product = productDao.find(dto.getProductId());
+        if (product == null) {
+            errors.reject("Продукция с таким id не существует");
         } else {
-            Unit unit = material.getUnitByUnitId();
+            Unit unit = product.getUnitByUnitId();
             if (!unit.isDivisibility() && (value - (int)value) != 0) {
-                errors.reject("Дробные значения количества материала для данного типа материала недопустимы");
+                errors.reject("Дробные значения количества для данного типа продукции недопустимы");
             }
         }
     }

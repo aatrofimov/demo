@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <property name="schema" value="testwork"/>
+
+    <changeSet id="20170630-create_schema" author="TrofimovAA">
+        <sql>
+            DROP SCHEMA IF EXISTS testwork CASCADE;
+            CREATE SCHEMA testwork;
+        </sql>
+    </changeSet>
+
+    <changeSet id="20170630-0_add_sequence" author="TrofimovAA">
+        <comment>Создание sequence</comment>
+        <createSequence schemaName="testwork" sequenceName="entity_seq" incrementBy="10" startValue="100"/>
+    </changeSet>
+
+    <changeSet id="20170630-1_add_material_table" author="TrofimovAA">
+        <comment>Добавление таблицы материалов</comment>
+        <createTable schemaName="testwork" tableName="material" remarks="Таблица материалов">
+            <column name="material_id" type="int" remarks="ID, заполняется из entity_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)" remarks="Название материала">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unit_id" type="int" remarks="Единица измерения">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-2_add_unit_table" author="TrofimovAA">
+        <comment>Добавление таблицы единиц измерения</comment>
+        <createTable schemaName="testwork" tableName="unit" remarks="Единицы измерения">
+            <column name="unit_id" type="int" remarks="ID, заполняется из entity_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)" remarks="Наименование">
+                <constraints nullable="false"/>
+            </column>
+            <column name="short_name" type="varchar(32)" remarks="Скоращенное обозначение">
+                <constraints nullable="false"/>
+            </column>
+            <column name="divisibility" type="boolean" defaultValueBoolean="false" remarks="Делимость">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-3_add_product_table" author="TrofimovAA">
+        <comment>Добавление таблицы изделий</comment>
+        <createTable schemaName="testwork" tableName="product" remarks="Таблица изделий">
+            <column name="product_id" type="int" remarks="ID, заполняется из entity_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)" remarks="Название материала">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unit_id" type="int" remarks="Единица измерения">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="int" remarks="Цена">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-4_add_material_product_table" author="TrofimovAA">
+        <comment>Таблица необходимых материалов для изделий</comment>
+        <createTable schemaName="testwork" tableName="mat_prod" remarks="Таблица материалов для изделий">
+            <column name="mat_prod_id" type="int" remarks="ID, заполняется из entity_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="material_id" type="int" remarks="Материал">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="int" remarks="Изделие">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="DOUBLE" remarks="Количество материала на единицу изделия">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-5_add_resource_table" author="TrofimovAA">
+        <comment>Добавление таблицы доступных ресурсов на складе</comment>
+        <createTable schemaName="testwork" tableName="resource" remarks="Доступные ресурсы на складе">
+            <column name="resource_id" type="int" remarks="ID, заполняется из entity_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="material_id" type="int" remarks="Материал">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="DOUBLE" remarks="Величина">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-6_add_dealings_history_table" author="TrofimovAA">
+        <comment>Добавление таблицы истории сделок</comment>
+        <createTable schemaName="testwork" tableName="dealings_history" remarks="История сделок">
+            <column name="deal_history_id" type="int" remarks="ID, заполняется из entity_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type_id" type="int" remarks="Вид сделки">
+                <constraints nullable="false"/>
+            </column>
+            <column name="material_id" type="int" remarks="Материал">
+                <constraints nullable="true"/>
+            </column>
+            <column name="product_id" type="int" remarks="Изделие">
+                <constraints nullable="true"/>
+            </column>
+            <column name="value" type="DOUBLE" remarks="Величина">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unit_price" type="int" remarks="Цена за единицу">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_successfully" type="boolean" defaultValueBoolean="false" remarks="Состоялась ли сделка">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp" remarks="Дата и время приобритения">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)" remarks="Комментарий к сделке">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-7_add_deal_type_table" author="TrofimovAA">
+        <comment>Добавление таблицы видов сделок</comment>
+        <createTable schemaName="testwork" tableName="deal_type" remarks="Виды договоров">
+            <column name="deal_type_id" type="int" remarks="ID, заполняется из entity_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)" remarks="Название">
+                <constraints nullable="false"/>
+            </column>
+            <column name="profitable" type="boolean" remarks="Доходный/Расходный">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)" remarks="Комментарий">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-8_add_account_table" author="TrofimovAA">
+        <comment>Добавление таблицы банковского счета</comment>
+        <createTable schemaName="testwork" tableName="account" remarks="Счет">
+            <column name="account_id" type="int" remarks="Id счета">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="int" remarks="Деньги на счете">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-9_add_transaction_history" author="TrofimovAA">
+        <comment>Добавление таблицы истории банковских операций</comment>
+        <createTable schemaName="testwork" tableName="transaction" remarks="Транзакции">
+            <column name="transaction_id" type="int" autoIncrement="true" startWith="10" remarks="Id транзакции">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deal_id" type="int" remarks="Id сделки">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date" type="timestamp" remarks="Дата и время транзакции">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)" remarks="Комментарий">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20170630-10_add_unit_table_index_and_constraint" author="TrofimovAA">
+        <comment>Создание индекса и первичного ключа для таблицы единиц измерений</comment>
+
+        <createIndex schemaName="testwork" tableName="unit" indexName="XPKunit" unique="true">
+            <column name="unit_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="unit" constraintName="XPKunit" columnNames="unit_id"/>
+    </changeSet>
+
+    <changeSet id="20170630-11_add_material_table_indices_and_constraints" author="TrofimovAA">
+        <comment>Создание индексов, первичных и внешних ключей для таблицы материалов</comment>
+
+        <createIndex schemaName="testwork" tableName="material" indexName="XPKmaterial" unique="true">
+            <column name="material_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="material" constraintName="XPKmaterial"
+                       columnNames="material_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKmaterial"
+
+                baseTableSchemaName="testwork"
+                baseTableName="material"
+                baseColumnNames="unit_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="unit"
+                referencedColumnNames="unit_id"/>
+    </changeSet>
+
+    <changeSet id="20170630-12_add_product_table_indices_and_constraints" author="TrofimovAA">
+        <comment>Создание индексов, первичных и внешних ключей для таблицы изделий</comment>
+
+        <createIndex schemaName="testwork" tableName="product" indexName="XPKproduct" unique="true">
+            <column name="product_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="product" constraintName="XPKproduct"
+                       columnNames="product_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKproduct"
+
+                baseTableSchemaName="testwork"
+                baseTableName="product"
+                baseColumnNames="unit_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="unit"
+                referencedColumnNames="unit_id"/>
+    </changeSet>
+
+    <changeSet id="20170630-13_add_resource_table_indices_and_constraints" author="TrofimovAA">
+        <comment>Создание индексов, первичных и внешних ключей для таблицы ресурсов</comment>
+
+        <createIndex schemaName="testwork" tableName="resource" indexName="XPKresource" unique="true">
+            <column name="resource_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="resource" constraintName="XPKresource"
+                       columnNames="resource_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKmaterial_link"
+
+                baseTableSchemaName="testwork"
+                baseTableName="resource"
+                baseColumnNames="material_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="material"
+                referencedColumnNames="material_id"/>
+    </changeSet>
+
+    <changeSet id="20170630-14_add_mat_prod_table_indices_and_constraints" author="TrofimovAA">
+        <comment>Создание индексов, первичных и внешних ключей для таблицы материалов для изделий</comment>
+
+        <createIndex schemaName="testwork" tableName="mat_prod" indexName="XPKmat_prod" unique="true">
+            <column name="mat_prod_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="mat_prod" constraintName="XPKmat_prod"
+                       columnNames="mat_prod_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKmat_link"
+
+                baseTableSchemaName="testwork"
+                baseTableName="mat_prod"
+                baseColumnNames="material_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="material"
+                referencedColumnNames="material_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKprod_link"
+
+                baseTableSchemaName="testwork"
+                baseTableName="mat_prod"
+                baseColumnNames="product_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="product"
+                referencedColumnNames="product_id"/>
+    </changeSet>
+
+    <changeSet id="20170630-15_add_deal_type_table_indices_and_constraints" author="TrofimovAA">
+        <comment>Создание индексов, первичных и внешних ключей для таблицы типов сделок</comment>
+
+        <createIndex schemaName="testwork" tableName="deal_type" indexName="XPKdeal_type" unique="true">
+            <column name="deal_type_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="deal_type" constraintName="XPKdeal_type"
+                       columnNames="deal_type_id"/>
+    </changeSet>
+
+    <changeSet id="20170630-16_add_dealings_history_table_indices_and_constraints" author="TrofimovAA">
+        <comment>Создание индексов, первичных и внешних ключей для таблицы истории сделок</comment>
+
+        <createIndex schemaName="testwork" tableName="dealings_history" indexName="XPKdealings_history" unique="true">
+            <column name="deal_history_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="dealings_history" constraintName="XPKdealings_history_history"
+                       columnNames="deal_history_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKmat_deal_link"
+
+                baseTableSchemaName="testwork"
+                baseTableName="dealings_history"
+                baseColumnNames="material_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="material"
+                referencedColumnNames="material_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKprod_deal_link"
+
+                baseTableSchemaName="testwork"
+                baseTableName="dealings_history"
+                baseColumnNames="product_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="product"
+                referencedColumnNames="product_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKdeal_type_link"
+
+                baseTableSchemaName="testwork"
+                baseTableName="dealings_history"
+                baseColumnNames="type_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="deal_type"
+                referencedColumnNames="deal_type_id"/>
+    </changeSet>
+
+    <changeSet id="20170630-17_add_transaction_table_indices_and_constraints" author="TrofimovAA">
+        <comment>Создание индексов, первичных и внешних ключей для таблицы истории продаж</comment>
+
+        <createIndex schemaName="testwork" tableName="transaction" indexName="XPKtransaction" unique="true">
+            <column name="transaction_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="transaction" constraintName="XPKtransaction"
+                       columnNames="transaction_id"/>
+
+        <addForeignKeyConstraint
+                constraintName="XFKtransact_deal_link"
+
+                baseTableSchemaName="testwork"
+                baseTableName="transaction"
+                baseColumnNames="deal_id"
+
+                referencedTableSchemaName="testwork"
+                referencedTableName="dealings_history"
+                referencedColumnNames="deal_history_id"/>
+    </changeSet>
+
+    <changeSet id="20170630-18_add_account_table_indices_and_constraints" author="TrofimovAA">
+        <comment>Создание индексов, первичных и внешних ключей для таблицы истории продаж</comment>
+        <createIndex schemaName="testwork" tableName="account" indexName="XPKaccout" unique="true">
+            <column name="account_id"/>
+        </createIndex>
+
+        <addPrimaryKey schemaName="testwork" tableName="account" constraintName="XPKaccount"
+                       columnNames="account_id"/>
+    </changeSet>
+
+    <!--<changeSet id="20170630-17_add_dealings_history_table_trigger" author="TrofimovAA">-->
+    <!--<comment>Триггер для таблицы истории продаж</comment>-->
+    <!--<createProcedure schemaName="testwork">-->
+    <!--create trigger DealHistoryCreate before insert on dealings_history-->
+    <!--referencing new row as newrow for each row-->
+    <!--begin atomic-->
+    <!--if newrow.date is null then-->
+    <!--set newrow.date = CURRENT_TIMESTAMP;-->
+    <!--end if;-->
+    <!--end;-->
+    <!--</createProcedure>-->
+    <!--</changeSet>-->
+</databaseChangeLog>

@@ -30,6 +30,8 @@ public class ResourceDto {
         this.value = resource.getValue();
     }
 
+    public ResourceDto() {/* */}
+
     public int getResourceId() {
         return resourceId;
     }

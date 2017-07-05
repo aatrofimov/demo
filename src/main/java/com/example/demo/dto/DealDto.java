@@ -64,6 +64,8 @@ public class DealDto {
         this.isSuccessfully = dealHistory.isSuccessfully();
     }
 
+    public DealDto() {/* */}
+
     public int getDealId() {
         return dealId;
     }

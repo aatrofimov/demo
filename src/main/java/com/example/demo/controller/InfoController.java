@@ -1,12 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.dao.*;
 import com.example.demo.dto.*;
+import com.example.demo.service.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.*;
 
 /**
  * Created by IntelliJ IDEA.<br>
@@ -19,17 +18,11 @@ import java.util.stream.*;
 @RequestMapping("/info")
 public class InfoController {
 
-    private DealingsHistoryDao dealingsHistoryDao;
-
-    private ResourceDao resourceDao;
+    private InfoService infoService;
 
     @Autowired
-    public InfoController(
-            DealingsHistoryDao dealingsHistoryDao,
-            ResourceDao resourceDao
-    ) {
-        this.dealingsHistoryDao = dealingsHistoryDao;
-        this.resourceDao = resourceDao;
+    public InfoController(InfoService infoService) {
+        this.infoService = infoService;
     }
 
     /**
@@ -38,7 +31,7 @@ public class InfoController {
     @GetMapping("/gethistory")
     @ResponseBody
     public List<DealDto> getDealHistory() {
-        return dealingsHistoryDao.selectAll().stream().map(DealDto::new).collect(Collectors.toList());
+        return infoService.getDealHistory();
     }
 
     /**
@@ -47,6 +40,39 @@ public class InfoController {
     @GetMapping("/resources")
     @ResponseBody
     public List<ResourceDto> getResources() {
-        return resourceDao.selectAll().stream().map(ResourceDto::new).collect(Collectors.toList());
+        return infoService.getResources();
+    }
+
+    /**
+     * Информация о транзакциях
+     */
+    @GetMapping("/transactions")
+    @ResponseBody
+    public List<TransactionDto> getTransactions() {
+        return infoService.getTransactions();
+    }
+
+    /**
+     * Информация о счетах
+     */
+    @GetMapping("/accounts")
+    @ResponseBody
+    public List<AccountDto> getAccounts() {
+        return infoService.getAccounts();
+    }
+
+    /**
+     * Получение списка типов доступных единиц измерения
+     */
+    @GetMapping("/units")
+    @ResponseBody
+    public List<UnitDto> getUnits() {
+        return infoService.getUnits();
+    }
+
+    @GetMapping("/dealtypes")
+    @ResponseBody
+    public List<DealTypeDto> getDealTypes() {
+        return infoService.getDealTypes();
     }
 }

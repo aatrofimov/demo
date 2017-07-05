@@ -28,7 +28,7 @@ public class InfoController {
     /**
      * Получение информации о сделках
      */
-    @GetMapping("/gethistory")
+    @GetMapping("/history")
     @ResponseBody
     public List<DealDto> getDealHistory() {
         return infoService.getDealHistory();
@@ -74,5 +74,17 @@ public class InfoController {
     @ResponseBody
     public List<DealTypeDto> getDealTypes() {
         return infoService.getDealTypes();
+    }
+
+    @GetMapping("/materials")
+    @ResponseBody
+    public List<MaterialInfoDto> getMaterials() {
+        return infoService.getMaterials();
+    }
+
+    @GetMapping("/products")
+    @ResponseBody
+    public List<ProductDto> getProducts() {
+        return infoService.getProducts();
     }
 }

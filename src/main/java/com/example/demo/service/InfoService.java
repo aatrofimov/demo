@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.*;
 import com.example.demo.dto.*;
+import com.example.demo.helper.*;
 import org.springframework.stereotype.*;
 
 import java.util.*;
@@ -29,13 +30,22 @@ public class InfoService {
 
     private DealTypeDao dealTypeDao;
 
+    private MaterialDao materialDao;
+
+    private ProductDao productDao;
+
+    private ProductHelper productHelper;
+
     public InfoService(
             DealingsHistoryDao dealingsHistoryDao,
             ResourceDao resourceDao,
             TransactionDao transactionDao,
             AccountDao accountDao,
             UnitDao unitDao,
-            DealTypeDao dealTypeDao
+            DealTypeDao dealTypeDao,
+            MaterialDao materialDao,
+            ProductDao productDao,
+            ProductHelper productHelper
     ) {
         this.dealingsHistoryDao = dealingsHistoryDao;
         this.resourceDao = resourceDao;
@@ -43,6 +53,9 @@ public class InfoService {
         this.accountDao = accountDao;
         this.unitDao = unitDao;
         this.dealTypeDao = dealTypeDao;
+        this.materialDao = materialDao;
+        this.productDao = productDao;
+        this.productHelper = productHelper;
     }
 
     /**
@@ -85,6 +98,26 @@ public class InfoService {
      */
     public List<DealTypeDto> getDealTypes() {
         return dealTypeDao.selectAll().stream().map(DealTypeDto::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Получение списка материалов
+     */
+    public List<MaterialInfoDto> getMaterials() {
+        return materialDao.selectAll().stream().map(MaterialInfoDto::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Получение списка продуктов
+     */
+    public List<ProductDto> getProducts() {
+        return productDao.selectAll().stream().map(product -> new ProductDto(
+                product.getProductId(),
+                product.getName(),
+                product.getUnitId(),
+                productHelper.getProductPrice(product, 1.0),
+                product.getMatProdsByProductId().stream().map(MatProdDto::new).collect(Collectors.toList())
+        )).collect(Collectors.toList());
     }
 
 }

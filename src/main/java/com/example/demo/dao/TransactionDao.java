@@ -20,27 +20,22 @@ public class TransactionDao extends AbstractDao<Transaction> {
 
     private AccountDao accountDao;
 
-    private DealTypeDao dealTypeDao;
-
     @Autowired
     public TransactionDao(AccountDao accountDao, DealTypeDao dealTypeDao) {
         super(Transaction.class);
         this.accountDao = accountDao;
-        this.dealTypeDao = dealTypeDao;
     }
 
     /**
      * Создание новой транзакции
      * @param money сумма
-     * @param dealTypeId тип договора
-     * @param dealId id записи в истории сделок
+     * @param dealType тип договора
+     * @param deal запись в истории сделок
      * @param description комментарий
      * @throws Exception
      */
-    public void createTransaction(int money, Integer dealTypeId, Integer dealId, String description) throws Exception {
-        boolean haveDealTypeId = dealTypeId != null && dealTypeId > 0;
-        if (haveDealTypeId) {
-            DealType dealType = dealTypeDao.getDealType(dealTypeId);
+    public Transaction createTransaction(int money, DealType dealType, DealingsHistory deal, String description) throws Exception {
+        if (dealType != null) {
             if (dealType.isProfitable() && money < 0 && !dealType.isProfitable() && money > 0) {
                 throw new Exception("Тип договора не соответствует сумме транзакции");
             }
@@ -49,11 +44,9 @@ public class TransactionDao extends AbstractDao<Transaction> {
         transaction.setAmount(money);
         transaction.setDate(new Timestamp(System.currentTimeMillis()));
         transaction.setDescription(description);
-        if (dealId != null && dealId > 0) {
-            transaction.setDealId(dealId);
-        }
-        persist(transaction);
+        transaction.setDealingsHistoryByDealId(deal);
         accountDao.changeAmount(transaction);
+        return transaction;
     }
 
 }

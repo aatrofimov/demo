@@ -22,9 +22,9 @@ public class DealingsHistoryDao extends AbstractDao<DealingsHistory> {
 
     /**
      * Создание записи о сделке
-     * @param typeId тип договора
-     * @param materialId id материала
-     * @param productId id продукции
+     * @param dealType тип договора
+     * @param material материал
+     * @param product продукция
      * @param value количество
      * @param price стоимость
      * @param description комментарий
@@ -32,9 +32,9 @@ public class DealingsHistoryDao extends AbstractDao<DealingsHistory> {
      * @return DealingsHistory
      */
     public DealingsHistory createHistory(
-            int typeId,
-            Integer materialId,
-            Integer productId,
+            DealType dealType,
+            Material material,
+            Product product,
             double value,
             int price,
             String description,
@@ -42,14 +42,13 @@ public class DealingsHistoryDao extends AbstractDao<DealingsHistory> {
     ) {
         DealingsHistory dealingsHistory = new DealingsHistory();
         dealingsHistory.setDate(new Timestamp(System.currentTimeMillis()));
-        dealingsHistory.setTypeId(typeId);
-        dealingsHistory.setMaterialId(materialId);
-        dealingsHistory.setProductId(productId);
+        dealingsHistory.setDealTypeByTypeId(dealType);
+        dealingsHistory.setMaterialByMaterialId(material);
+        dealingsHistory.setProductByProductId(product);
         dealingsHistory.setValue(value);
         dealingsHistory.setPrice(price);
         dealingsHistory.setSuccessfully(isSuccessfully);
         dealingsHistory.setDescription(description);
-        persist(dealingsHistory);
         return dealingsHistory;
     }
 }

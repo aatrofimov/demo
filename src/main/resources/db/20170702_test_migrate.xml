@@ -52,12 +52,12 @@
     <changeSet id="20170702-1_add_start_money" author="TrofimovAA">
         <insert schemaName="testwork" tableName="account">
             <column name="account_id" value="1"/>
-            <column name="amount" value="10000"/>
+            <column name="amount" value="1000000"/>
         </insert>
 
         <sql>
             INSERT INTO PUBLIC.TESTWORK.TRANSACTION
-            (TRANSACTION_ID, AMOUNT, DATE) VALUES (1, 10000, timestamp '2017-06-15 00:00:00');
+            (TRANSACTION_ID, AMOUNT, DATE) VALUES (1, 1000000, timestamp '2017-06-15 00:00:00');
         </sql>
     </changeSet>
 

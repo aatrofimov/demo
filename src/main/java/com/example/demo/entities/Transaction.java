@@ -112,7 +112,7 @@ public class Transaction {
         return result;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "DEAL_ID", referencedColumnName = "DEAL_HISTORY_ID")
     public DealingsHistory getDealingsHistoryByDealId() {
         return dealingsHistoryByDealId;

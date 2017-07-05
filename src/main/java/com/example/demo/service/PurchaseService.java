@@ -31,19 +31,23 @@ public class PurchaseService {
 
     private MaterialDao materialDao;
 
+    private DealTypeDao dealTypeDao;
+
     @Autowired
     public PurchaseService(
             AccountDao accountDao,
             TransactionDao transactionDao,
             DealingsHistoryDao dealingsHistoryDao,
             ResourceDao resourceDao,
-            MaterialDao materialDao
+            MaterialDao materialDao,
+            DealTypeDao dealTypeDao
     ) {
         this.accountDao = accountDao;
         this.transactionDao = transactionDao;
         this.dealingsHistoryDao = dealingsHistoryDao;
         this.resourceDao = resourceDao;
         this.materialDao = materialDao;
+        this.dealTypeDao = dealTypeDao;
     }
 
     /**
@@ -59,7 +63,7 @@ public class PurchaseService {
         Material material = materialDao.find(dto.getMaterialId());
         if (material != null) {
             int totalPrice = (int) Math.floor(material.getPrice() * dto.getValue());
-            boolean isSuccessfully = totalPrice >= accountDao.moneyOnAccount();
+            boolean isSuccessfully = totalPrice <= accountDao.moneyOnAccount();
             String description = "";
             if (isSuccessfully) {
                 description = "Куплен материал " + material.getName() +
@@ -68,17 +72,21 @@ public class PurchaseService {
             } else {
                 description = "Недостаточно средств на счете";
             }
+            DealType dealType = dealTypeDao.find(PURCHASE_DEAL_TYPE);
             DealingsHistory dealHistory = dealingsHistoryDao.createHistory(
-                    PURCHASE_DEAL_TYPE,
-                    dto.getMaterialId(),
+                    dealType,
+                    material,
                     null,
                     dto.getValue(),
                     totalPrice,
                     description,
                     isSuccessfully);
             if (isSuccessfully) {
-                transactionDao.createTransaction(-totalPrice, PURCHASE_DEAL_TYPE, dealHistory.getDealHistoryId(), "");
+                Transaction transaction = transactionDao.createTransaction(-totalPrice, dealType, dealHistory, null);
+                transactionDao.persist(transaction);
                 resourceDao.addResource(dto.getMaterialId(), dto.getValue());
+            } else {
+                dealingsHistoryDao.persist(dealHistory);
             }
             return new DealDto(dealHistory);
         } else {

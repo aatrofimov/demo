@@ -24,7 +24,7 @@ public class MatProdDao extends AbstractDao<MatProd> {
      * @param productId id продукции
      */
     public MatProd getMatProd(int materialId, int productId) {
-        return find("material_id", materialId, "product_id", productId).get(0);
+        return find("materialId", materialId, "productId", productId).get(0);
     }
 
     /**

@@ -24,6 +24,8 @@ public class MaterialDto {
         this.value = value;
     }
 
+    public MaterialDto() {/* */};
+
     public int getMaterialId() {
         return materialId;
     }

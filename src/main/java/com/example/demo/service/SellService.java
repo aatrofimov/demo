@@ -32,6 +32,8 @@ public class SellService {
 
     private ResourceDao resourceDao;
 
+    private DealTypeDao dealTypeDao;
+
     @Autowired
     public SellService(
             ProductDao productDao,
@@ -39,7 +41,8 @@ public class SellService {
             AccountDao accountDao,
             DealingsHistoryDao dealingsHistoryDao,
             TransactionDao transactionDao,
-            ResourceDao resourceDao
+            ResourceDao resourceDao,
+            DealTypeDao dealTypeDao
     ) {
         this.productDao = productDao;
         this.helper = helper;
@@ -47,13 +50,14 @@ public class SellService {
         this.dealingsHistoryDao = dealingsHistoryDao;
         this.transactionDao = transactionDao;
         this.resourceDao = resourceDao;
+        this.dealTypeDao = dealTypeDao;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public DealDto sellProduct(SaleDto saleDto) throws Exception {
         Product product = productDao.getProduct(saleDto.getProductId());
         int price = helper.getProductPrice(product, saleDto.getValue());
-        boolean isEnoughMoney = price >= accountDao.moneyOnAccount();
+        boolean isEnoughMoney = price <= accountDao.moneyOnAccount();
         boolean isEnoughResources = resourceDao.checkResources(saleDto.getProductId(), saleDto.getValue());
         boolean isSuccessfully = isEnoughMoney && isEnoughResources;
         String description = "";
@@ -69,17 +73,21 @@ public class SellService {
                 description += "Недостаточно ресурсов на складе;";
             }
         }
+        DealType dealType = dealTypeDao.find(SALE_DEAL_TYPE);
         DealingsHistory dealHistory = dealingsHistoryDao.createHistory(
-                SALE_DEAL_TYPE,
+                dealType,
                 null,
-                saleDto.getProductId(),
+                product,
                 saleDto.getValue(),
                 price,
                 description,
                 isSuccessfully);
         if (isSuccessfully) {
-            transactionDao.createTransaction(price, SALE_DEAL_TYPE, dealHistory.getDealHistoryId(), "");
+            Transaction transaction = transactionDao.createTransaction(price, dealType, dealHistory, "");
+            transactionDao.persist(transaction);
             resourceDao.removeResources(saleDto.getProductId(), saleDto.getValue());
+        } else {
+            dealingsHistoryDao.persist(dealHistory);
         }
         return new DealDto(dealHistory);
     }

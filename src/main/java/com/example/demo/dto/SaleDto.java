@@ -24,6 +24,8 @@ public class SaleDto {
         this.value = value;
     }
 
+    public SaleDto() {/* */}
+
     public int getProductId() {
         return productId;
     }

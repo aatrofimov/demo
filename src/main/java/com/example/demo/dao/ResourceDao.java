@@ -32,7 +32,7 @@ public class ResourceDao extends AbstractDao<Resource> {
      * @param value количество
      */
     public void addResource(int materialId, double value) {
-        Resource resource = find("material_id", materialId).get(0);
+        Resource resource = find("materialId", materialId).get(0);
         if (resource == null) {
             resource = new Resource();
             resource.setMaterialId(materialId);

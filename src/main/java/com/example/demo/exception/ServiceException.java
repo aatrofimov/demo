@@ -5,7 +5,6 @@ package com.example.demo.exception;
  * User: Alexey<br>
  * Date: 04.07.2017<br>
  * Time: 4:41<br>
- * todo javadoc
  */
 public class ServiceException extends Exception {
 

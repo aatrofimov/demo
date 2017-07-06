@@ -28,8 +28,9 @@ public class ResourceDao extends AbstractDao<Resource> {
 
     /**
      * Добавление ресурса
+     *
      * @param materialId id материала
-     * @param value количество
+     * @param value      количество
      */
     public void addResource(int materialId, double value) {
         Resource resource = find("materialId", materialId).get(0);
@@ -43,15 +44,15 @@ public class ResourceDao extends AbstractDao<Resource> {
 
     /**
      * Проверка доступности ресурсов
-     * @param productId id продукции
-     * @param value объем продукции
+     *
+     * @param product продукция
+     * @param value   объем продукции
      * @return true, если ресурсов достаточно
      * @throws Exception
      */
-    public boolean checkResources(int productId, double value) throws Exception {
-        List<Resource> resources = find("product_id", productId);
-        for (Resource resource: resources) {
-            if (resource.getValue() < matProdDao.getMatProdValue(resource.getMaterialId(), productId) * value) {
+    public boolean checkResources(Product product, double value) throws Exception {
+        for (Resource resource : getResourcesByProduct(product)) {
+            if (resource.getValue() < matProdDao.getMatProdValue(resource.getMaterialId(), product.getProductId()) * value) {
                 return false;
             }
         }
@@ -60,18 +61,27 @@ public class ResourceDao extends AbstractDao<Resource> {
 
     /**
      * Уменьшение ресурсов на складе
-     * @param productId id продукции
-     * @param value количество продукции
+     *
+     * @param product продукци
+     * @param value   количество продукции
      * @throws Exception
      */
-    public void removeResources(int productId, double value) throws Exception {
-        List<Resource> resources = find("product_id", productId);
-        for (Resource resource: resources) {
-            double resVal = resource.getValue() - matProdDao.getMatProdValue(resource.getMaterialId(), productId) * value;
+    public void removeResources(Product product, double value) throws Exception {
+        for (Resource resource : getResourcesByProduct(product)) {
+            double resVal = resource.getValue() - matProdDao.getMatProdValue(resource.getMaterialId(), product.getProductId()) * value;
             if (resVal < 0) {
                 throw new Exception("Недостаточно ресурсов");
             }
-            resource.setValue(resource.getValue() - matProdDao.getMatProdValue(resource.getMaterialId(), productId));
+            resource.setValue(resource.getValue() - matProdDao.getMatProdValue(resource.getMaterialId(), product.getProductId()));
         }
+    }
+
+    private Collection<Resource> getResourcesByProduct(Product product) {
+        Collection<MatProd> matProds = product.getMatProdsByProductId();
+        Set<Resource> resources = new HashSet<>();
+        for (MatProd matProd : matProds) {
+            resources.addAll(matProd.getMaterialByMaterialId().getResourcesByMaterialId());
+        }
+        return resources;
     }
 }

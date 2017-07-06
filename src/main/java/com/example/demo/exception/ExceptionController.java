@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.*;
  * User: Alexey<br>
  * Date: 04.07.2017<br>
  * Time: 4:39<br>
- * todo javadoc
+ * Контроллер для обработки исключений
  */
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {

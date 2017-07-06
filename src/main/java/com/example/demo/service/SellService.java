@@ -57,21 +57,14 @@ public class SellService {
     public DealDto sellProduct(SaleDto saleDto) throws Exception {
         Product product = productDao.getProduct(saleDto.getProductId());
         int price = helper.getProductPrice(product, saleDto.getValue());
-        boolean isEnoughMoney = price <= accountDao.moneyOnAccount();
-        boolean isEnoughResources = resourceDao.checkResources(saleDto.getProductId(), saleDto.getValue());
-        boolean isSuccessfully = isEnoughMoney && isEnoughResources;
+        boolean isSuccessfully = resourceDao.checkResources(product, saleDto.getValue());
         String description = "";
         if (isSuccessfully) {
             description = "Реализована продукция " + product.getName() +
                     " в объеме " + saleDto.getValue() + " " + product.getUnitByUnitId().getShortName() +
                     " на сумму " + price;
         } else {
-            if (!isEnoughMoney) {
-                description = "Недостаточно средств на счете;";
-            }
-            if (!isEnoughResources) {
-                description += "Недостаточно ресурсов на складе;";
-            }
+            description += "Недостаточно ресурсов на складе";
         }
         DealType dealType = dealTypeDao.find(SALE_DEAL_TYPE);
         DealingsHistory dealHistory = dealingsHistoryDao.createHistory(
@@ -85,7 +78,7 @@ public class SellService {
         if (isSuccessfully) {
             Transaction transaction = transactionDao.createTransaction(price, dealType, dealHistory, "");
             transactionDao.persist(transaction);
-            resourceDao.removeResources(saleDto.getProductId(), saleDto.getValue());
+            resourceDao.removeResources(product, saleDto.getValue());
         } else {
             dealingsHistoryDao.persist(dealHistory);
         }

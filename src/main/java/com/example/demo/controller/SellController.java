@@ -36,7 +36,6 @@ public class SellController {
     }
 
     @PostMapping(value = "")
-    @ResponseBody
     public DealDto sell(@RequestBody @Validated SaleDto dto) throws ServiceException {
         try {
             return sellService.sellProduct(dto);

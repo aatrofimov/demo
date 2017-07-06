@@ -29,7 +29,6 @@ public class InfoController {
      * Получение информации о сделках
      */
     @GetMapping("/history")
-    @ResponseBody
     public List<DealDto> getDealHistory() {
         return infoService.getDealHistory();
     }
@@ -38,7 +37,6 @@ public class InfoController {
      * Информация о ресурсах
      */
     @GetMapping("/resources")
-    @ResponseBody
     public List<ResourceDto> getResources() {
         return infoService.getResources();
     }
@@ -47,7 +45,6 @@ public class InfoController {
      * Информация о транзакциях
      */
     @GetMapping("/transactions")
-    @ResponseBody
     public List<TransactionDto> getTransactions() {
         return infoService.getTransactions();
     }
@@ -56,7 +53,6 @@ public class InfoController {
      * Информация о счетах
      */
     @GetMapping("/accounts")
-    @ResponseBody
     public List<AccountDto> getAccounts() {
         return infoService.getAccounts();
     }
@@ -65,25 +61,30 @@ public class InfoController {
      * Получение списка типов доступных единиц измерения
      */
     @GetMapping("/units")
-    @ResponseBody
     public List<UnitDto> getUnits() {
         return infoService.getUnits();
     }
 
+    /**
+     * типы договоров
+     */
     @GetMapping("/dealtypes")
-    @ResponseBody
     public List<DealTypeDto> getDealTypes() {
         return infoService.getDealTypes();
     }
 
+    /**
+     * Список используемых материалов
+     */
     @GetMapping("/materials")
-    @ResponseBody
     public List<MaterialInfoDto> getMaterials() {
         return infoService.getMaterials();
     }
 
+    /**
+     * Список доступных продуктов
+     */
     @GetMapping("/products")
-    @ResponseBody
     public List<ProductDto> getProducts() {
         return infoService.getProducts();
     }

@@ -5,7 +5,6 @@ import com.example.demo.exception.*;
 import com.example.demo.service.*;
 import com.example.demo.validator.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
 import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.*;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * Time: 6:14<br>
  * Контроллер для закупок материалов
  */
-@Controller
+@RestController
 @RequestMapping("/purchase")
 public class PurchaseController {
 
@@ -37,7 +36,6 @@ public class PurchaseController {
     }
 
     @PostMapping(value = "")
-    @ResponseBody
     public DealDto sellMaterials(@RequestBody @Validated MaterialDto dto) throws ServiceException {
         try {
             return service.buyMaterial(dto);

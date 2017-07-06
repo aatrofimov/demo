@@ -1,0 +1,1 @@
+mvn -Pdb-create liquibase:update -Dliquibase.dropFirst=true & mvn -Pdb-test-migrate liquibase:update

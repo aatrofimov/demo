@@ -1,0 +1,13 @@
+dataSource:
+  driverClassName: org.hsqldb.jdbcDriver
+  url: jdbc:hsqldb:hsql://localhost/sandboxDb
+  username: SA
+  password:
+hibernate:
+  dialect: org.hibernate.dialect.HSQLDialect
+  hbm2ddl.auto: update
+spring:
+  liquibase:
+    enabled: true
+    check-change-log-location: true
+    change-log: db/changelog-cumulative.xml

@@ -8,6 +8,6 @@ import org.springframework.boot.autoconfigure.*;
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(new Class<?>[] {DemoApplication.class, JpaConfig.class}, args);
+		SpringApplication.run(new Class<?>[] {DemoApplication.class}, args);
 	}
 }

@@ -15,3 +15,8 @@ spring:
     url: jdbc:hsqldb:hsql://localhost/sandboxDb
     username: SA
     password:
+server:
+  error:
+    whitelabel:
+      enabled: false
+    path: /

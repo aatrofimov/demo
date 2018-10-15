@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dao.*;
 import com.example.demo.dto.*;
 import com.example.demo.helper.*;
+import com.example.demo.repository.UnitRepository;
 import org.springframework.stereotype.*;
 
 import java.util.*;
@@ -26,7 +27,7 @@ public class InfoService {
 
     private AccountDao accountDao;
 
-    private UnitDao unitDao;
+    private UnitRepository unitRepository;
 
     private DealTypeDao dealTypeDao;
 
@@ -41,7 +42,7 @@ public class InfoService {
             ResourceDao resourceDao,
             TransactionDao transactionDao,
             AccountDao accountDao,
-            UnitDao unitDao,
+            UnitRepository unitRepository,
             DealTypeDao dealTypeDao,
             MaterialDao materialDao,
             ProductDao productDao,
@@ -51,7 +52,7 @@ public class InfoService {
         this.resourceDao = resourceDao;
         this.transactionDao = transactionDao;
         this.accountDao = accountDao;
-        this.unitDao = unitDao;
+        this.unitRepository = unitRepository;
         this.dealTypeDao = dealTypeDao;
         this.materialDao = materialDao;
         this.productDao = productDao;
@@ -90,7 +91,7 @@ public class InfoService {
      * Получение списка типов доступных единиц измерения
      */
     public List<UnitDto> getUnits() {
-        return unitDao.selectAll().stream().map(UnitDto::new).collect(Collectors.toList());
+        return unitRepository.findAll().stream().map(UnitDto::new).collect(Collectors.toList());
     }
 
     /**

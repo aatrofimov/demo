@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.DemoApplication;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 public class JpaConfig implements TransactionManagementConfigurer {
 
     @Bean
+    @Qualifier("transactionManager")
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return new JpaTransactionManager();
     }
